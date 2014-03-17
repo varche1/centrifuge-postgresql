@@ -20,7 +20,7 @@ def long_description():
 
 
 setup(
-    name='centrifuge-mongodb',
+    name='centrifuge-postgresql',
     version='0.1.0',
     description="PostgreSQL structure backend for Centrifuge",
     long_description=long_description(),
