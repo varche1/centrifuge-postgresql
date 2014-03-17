@@ -1,0 +1,4 @@
+*.pyc
+build/*
+dist/*
+centrifuge_postgresql.egg-info/*
