@@ -7,65 +7,32 @@ Install:
 pip install centrifuge-postgresql
 ```
 
-Enable in Centrifuge configuration file:
+If you get exception like:
 
-```javascript
-{
-    "structure": {
-        "class": "centrifuge_postgresql.Storage",
-        "settings": {
-            "host": "localhost",
-            "port": 5432,
-            "name": "centrifuge",
-            "password": "",
-            "user": "postgres",
-            "pool_size": 10
-        }
-    }
-}
+```bash
+Error: pg_config executable not found.
 ```
 
-or
+Then you don't have `libpq-dev` package installed on your machine. For example, for Debian:
 
-```javascript
-{
-    "structure": {
-        "class": "centrifuge_postgresql.Storage",
-        "settings": {
-            "host": "localhost",
-            "port": 5432,
-            "name": "centrifuge",
-            "password": "",
-            "user": "postgres",
-            "pool_size": 10
-        }
-    }
-}
+```bash
+sudo apt-get install libpq-dev
 ```
 
-You can also specify PostgreSQL connection params as database url:
+Or for Red Hat:
 
-```javascript
-{
-    "structure": {
-        "class": "centrifuge_postgresql.Storage",
-        "settings": {
-            "url": "postgres://user:pass@host:port/dbname"
-        }
-    }
-}
+```bash
+yum install postgresql-devel
 ```
 
-Or specify an OS environment variable that holds value of the PostgreSQL connection url
+When installed - enable it when launching  Centrifuge:
 
 ```javascript
-{
-    "structure": {
-        "storage": "centrifuge_postgresql.Storage",
-        "settings": {
-            "url": "$DATABASE_URL"
-        }
-    }
-}
+CENTRIFUGE_STORAGE=centrifuge_postgresql.Storage centrifuge
+```
 
+inspect available options:
+
+```javascript
+CENTRIFUGE_STORAGE=centrifuge_postgresql.Storage centrifuge --help
 ```

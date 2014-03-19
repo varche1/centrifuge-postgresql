@@ -1,6 +1,5 @@
 # coding: utf-8
 import json
-import os
 import uuid
 
 try:
@@ -9,12 +8,38 @@ except ImportError:
     import urllib.parse as urlparse
 
 from tornado.gen import coroutine, Return
+from tornado.options import define
 import momoko
 import psycopg2
 import psycopg2.extras
 
 from centrifuge.structure import BaseStorage
 from centrifuge.log import logger
+
+
+define(
+    "postgresql_host", default='localhost', help="PostgreSQL host", type=str
+)
+
+define(
+    "postgresql_port", default=5432, help="PostgreSQL port", type=int
+)
+
+define(
+    "postgresql_user", default="postgres", help="PostgreSQL user", type=str
+)
+
+define(
+    "postgresql_password", default="", help="PostgreSQL password", type=str
+)
+
+define(
+    "postgresql_name", default='centrifuge', help="PostgreSQL database name", type=str
+)
+
+define(
+    "postgresql_url", default='', help="PostgreSQL database URL", type=str
+)
 
 # Register database schemes in URLs.
 urlparse.uses_netloc.append('postgres')
@@ -52,19 +77,16 @@ class Storage(BaseStorage):
         raise Return((None, error))
 
     def get_dsn(self):
-        if "url" in self.settings:
-            database_url = self.settings["url"]
-            if database_url.startswith("$"):
-                # Retrieve $VARIABLE_NAME from OS Environment
-                database_url = os.environ[database_url[1:]]
+        if self.options.postgresql_url:
+            database_url = self.options.postgresql_url
             config = parse_database_url(database_url)
         else:
             config = {
-                "name": self.settings.get("name", "centrifuge"),
-                "user": self.settings.get("user", "postgres"),
-                "password": self.settings.get("password", ""),
-                "host": self.settings.get("host", "localhost"),
-                "port": self.settings.get("port", 5432)
+                "name": self.options.postgresql_name,
+                "user": self.options.postgresql_user,
+                "password": self.options.postgresql_password,
+                "host": self.options.postgresql_host,
+                "port": self.options.postgresql_port
             }
         dsn = "dbname={name} user={user} password={password} host={host} port={port}".format(**config)
         return dsn

@@ -21,7 +21,7 @@ def long_description():
 
 setup(
     name='centrifuge-postgresql',
-    version='0.1.0',
+    version='0.2.0',
     description="PostgreSQL structure backend for Centrifuge",
     long_description=long_description(),
     url='https://github.com/centrifugal/centrifuge-postgresql',
