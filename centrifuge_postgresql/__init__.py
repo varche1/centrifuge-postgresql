@@ -89,6 +89,7 @@ class Storage(BaseStorage):
                 "port": self.options.postgresql_port
             }
         dsn = "dbname={name} user={user} password={password} host={host} port={port}".format(**config)
+        logger.info(dsn)
         return dsn
 
     def open_connection(self, callback=None):
