@@ -93,7 +93,8 @@ class Storage(BaseStorage):
 
     def open_connection(self, callback=None):
         dsn = self.get_dsn()
-        self._conn = momoko.Connection(
+        self._conn = momoko.Connection()
+        self._conn.connect(
             dsn=dsn, callback=callback
         )
 
