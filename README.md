@@ -1,3 +1,5 @@
+Deprecated: this module will not be used with Centrifuge >= 0.8.0
+
 Centrifuge PostgreSQL structure backend
 =======================================
 
